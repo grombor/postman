@@ -1,0 +1,823 @@
+{
+	"info": {
+		"_postman_id": "b36bd49a-4063-4643-ac22-2fb10f4a20f8",
+		"name": "motomo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16872966"
+	},
+	"item": [
+		{
+			"name": "URL test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://89.171.129.186:9302/",
+					"protocol": "http",
+					"host": [
+						"89",
+						"171",
+						"129",
+						"186"
+					],
+					"port": "9302",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authentication Controller",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var json_data = JSON.parse(responseBody);",
+							"pm.globals.set(\"token\", json_data.token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"login\": \"admin\",\n  \"password\": \"admin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}auth",
+					"host": [
+						"{{url}}auth"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Finds all cars paginated",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.get(\"token\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}cars",
+					"host": [
+						"{{url}}cars"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a car by ID",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}cars/{{random_id}}",
+					"host": [
+						"{{url}}cars"
+					],
+					"path": [
+						"{{random_id}}"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find a car by VIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.get(\"vin\");",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"login\": \"admin\",\n  \"password\": \"admin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}cars/search?vin={{vin}}",
+					"host": [
+						"{{url}}cars"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "vin",
+							"value": "{{vin}}",
+							"description": "VIN no. of car with id=1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new car",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const t_vin = \"WAU3489102457\"+ _.random(1,9) + _.random(1,9) + _.random(1,9) + _.random(1,9);",
+							"const t_plates = \"SH35\" + _.random(10,99);",
+							"",
+							"pm.collectionVariables.set(\"test_vin\", t_vin);",
+							"pm.collectionVariables.set(\"test_plates\", t_plates);",
+							"",
+							"console.log(pm.collectionVariables.get(\"test_vin\"));",
+							"console.log(pm.collectionVariables.get(\"test_plates\"));",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"vin\": \"{{test_vin}}\",\n    \"registrationNumber\": \"{{test_plates}}\",\n    \"brand\": \"Volkswagen\",\n    \"model\": \"Golf\",\n    \"productionYear\": 2013,\n    \"mileage\": 115000,\n    \"description\": \"Some description\",\n    \"carTypeEntity\": {\n        \"id\": 2,\n        \"name\": \"Hatchback\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}cars",
+					"host": [
+						"{{url}}cars"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Finds all customers paginated",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}customers",
+					"host": [
+						"{{url}}customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Finds customer by id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const random_id = _.random(1,9)",
+							"",
+							"pm.collectionVariables.set(\"random_id\", random_id);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}customers/{{random_id}}",
+					"host": [
+						"{{url}}customers"
+					],
+					"path": [
+						"{{random_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Updates existing customer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const random_id = _.random(1,9)",
+							"const phone_no = \"5007018\" + _.random(1,9) + _.random(1,9)",
+							"",
+							"pm.collectionVariables.set(\"random_id\", random_id);",
+							"pm.collectionVariables.set(\"phone\", phone_no);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"name\": \"Jan\",\n    \"surname\": \"Kowalski\",\n    \"phone\": \"{{phone}}\",\n    \"address\": {\n        \"id\": 1,\n        \"country\": \"Poland\",\n        \"city\": \"Bełchatów\",\n        \"postalCode\": \"00-000\",\n        \"streetName\": \"Kaliska\",\n        \"streetNumber\": \"{{random_id}}\",\n        \"flatNumber\": null\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}customers/{{random_id}}",
+					"host": [
+						"{{url}}customers"
+					],
+					"path": [
+						"{{random_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Adds new customer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"address\": {\n    \"city\": \"Taciewo\",\n    \"country\": \"Poland\",\n    \"flatNumber\": \"23\",\n    \"id\": 0,\n    \"postalCode\": \"16-402\",\n    \"streetName\": \"Gnojna\",\n    \"streetNumber\": \"12\"\n  },\n  \"name\": \"Janusz\",\n  \"phone\": \"513786001\",\n  \"surname\": \"Wąs\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}customers",
+					"host": [
+						"{{url}}customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Updates existing customer Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}customers/18",
+					"host": [
+						"{{url}}customers"
+					],
+					"path": [
+						"18"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create and save new user account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"bir86411@uooos.com\",\n  \"login\": \"test5_login\",\n  \"password\": \"test1_Password123!\",\n  \"registrationDate\": {\n    \"date\": 0,\n    \"day\": 0,\n    \"hours\": 0,\n    \"minutes\": 0,\n    \"month\": 0,\n    \"nanos\": 0,\n    \"seconds\": 0,\n    \"time\": 0,\n    \"timezoneOffset\": 0,\n    \"year\": 0\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/sign-up",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"sign-up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activate account by token from email confirmation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// The variable \"random_id\" is designed to pick random value between 1 and 20 and use id to check the ID requests of cars database.",
+					"pm.collectionVariables.set(\"random_id\", _.random(1, 20));",
+					"",
+					"",
+					"// The list of VIN numbers",
+					"const vins = [",
+					"    \"JT3Z123KBW1589043\",",
+					"    \"WVWZ321WBK1589044\",",
+					"    \"JHWZ4H795FGU84012\",",
+					"    \"WAU34891024573567\",",
+					"    \"TMB1234FGH5678910\"",
+					"];",
+					"",
+					"// Pick one VIN from the list and make it a variable",
+					"pm.collectionVariables.set(\"vin\", vins[_.random(1, vins.length)]);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://89.171.129.186:9301/api/",
+			"type": "string"
+		},
+		{
+			"key": "random_id",
+			"value": ""
+		},
+		{
+			"key": "VIM",
+			"value": ""
+		},
+		{
+			"key": "reg_plate",
+			"value": ""
+		},
+		{
+			"key": "vin",
+			"value": ""
+		},
+		{
+			"key": "test_id",
+			"value": ""
+		},
+		{
+			"key": "test_vin",
+			"value": ""
+		},
+		{
+			"key": "test_plates",
+			"value": ""
+		},
+		{
+			"key": "phone",
+			"value": ""
+		}
+	]
+}
